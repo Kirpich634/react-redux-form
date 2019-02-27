@@ -2,8 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Form from './form-component';
 import combineForms from '../reducers/forms-reducer';
-import { createStore } from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import omit from '../utils/omit';
+import thunk from 'redux-thunk';
 
 class LocalForm extends React.Component {
   constructor(props) {
@@ -11,7 +12,7 @@ class LocalForm extends React.Component {
 
     this.store = props.store || createStore(combineForms({
       [props.model]: props.initialState,
-    }));
+    }), applyMiddleware(thunk));
 
     this.dispatch = (action) => {
       if (typeof action === 'function') {
